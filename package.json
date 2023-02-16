@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node script.js",
-    "start-dev": "nodemon script.js"
+    "start-dev": "forever start script.js"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +14,6 @@
     "axios": "^1.3.3",
     "date": "^2.0.2",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.20",
     "openai": "^3.1.0",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.19.4"
