@@ -31,7 +31,7 @@ client.initialize();
 
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
-    apiKey: "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",
+    apiKey: "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",
 });
 const openai = new OpenAIApi(configuration);
 
@@ -40,6 +40,7 @@ const openai = new OpenAIApi(configuration);
 function schedule(){
     client.on('message', async message => {
         const contact = (await message.getContact()).number;
+        console.log(contact);
         const hour = new Date().getHours();
         if(message.body.includes('!setJadwal')){
             let text = message.body.split('!setJadwal')[1];
@@ -70,7 +71,7 @@ function schedule(){
             }
             });
         }else if(message.body.includes('!help')){
-            message.reply('Ketik [!setJadwal hari,08.00,nama kegiatan] untuk menambahkan jadwal baru \n Ketik !getAllJadwal untuk melihat jadwal kamu hari ini \n Ketik !getJadwalToday untuk melihat jadwal kamu hari ini');
+            message.reply('Ketik [!setJadwal hari,08:00,nama kegiatan] untuk menambahkan jadwal baru \n Ketik !getAllJadwal untuk melihat jadwal kamu hari ini \n Ketik !getJadwalToday untuk melihat jadwal kamu hari ini');
         }// jadwal hari ini
         else if(message.body.includes('!getJadwalToday')){
             let today = new Date();
@@ -79,17 +80,6 @@ function schedule(){
             let dayNow = daylist[day].toLowerCase();
             console.log(dayNow);
 
-            //string matching to match day
-            // let result = data.filter(function (el) {
-            //     return el.toLowerCase().includes(dayNow);
-            // });
-            // if(result[0] == undefined){
-            //     client.sendMessage(message.from, 'Jadwal kamu hari ini kosong');
-            // }else{
-            // client.sendMessage(message.from, 'Jadwal kamu hari ini adalah:');
-            // result.forEach(element => {
-            //     client.sendMessage(message.from, element);
-            // });
 
             // get data from database
             connection.query(`SELECT * FROM jadwal WHERE hari LIKE '%${dayNow}%' && number_user LIKE '%${contact}%'`, function (err, result, fields) {
@@ -104,15 +94,7 @@ function schedule(){
                 }
         });
         }else if(message.body.includes('!deleteJadwal')){
-            // let text = message.body.split('!deleteJadwal')[1];
-            // let result = data.filter(function (el) {
-            //     return !el.toLowerCase().includes(text);
-            // });
-            // data = result;
-            // message.reply('jadwal berhasil dihapus');
-            // console.log(data);
-
-            // delete data from database
+       
             let text = message.body.split('!deleteJadwal')[1];
             connection.query(`DELETE FROM jadwal WHERE hari LIKE '%${text}%' && number_user LIKE '%${contact}%'`, function (err, result) {
                 if (err){
@@ -122,7 +104,7 @@ function schedule(){
                 console.log("1 record deleted");
                 message.reply('jadwal berhasil dihapus');
             });
-        }else if(message.body.includes('!ask') && contact == '628783667271'){
+        }else if(message.body.includes('!ask') && contact.includes('6287836672971')){
             let text = message.body.split('!ask')[1];
             let prompt = 'Q: '+text+'\nA:';
                 const completion = await openai.createCompletion({
