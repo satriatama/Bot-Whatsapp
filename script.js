@@ -1,10 +1,10 @@
 // configuration mySql server
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-    host: 'localhost',
-    database: 'whatsapp-bot',
-    user: 'root',
-    password: '123',
+    host: 'sql12.freemysqlhosting.net',
+    database: 'sql12598580',
+    user: 'sql12598580',
+    password: '3KAkEWftZ8',
 });
 
 connection.connect(function (err) {
@@ -40,6 +40,7 @@ const openai = new OpenAIApi(configuration);
 function schedule(){
     client.on('message', async message => {
         const contact = (await message.getContact()).number;
+        const hour = new Date().getHours();
         if(message.body.includes('!setJadwal')){
             let text = message.body.split('!setJadwal')[1];
             let textSplit = text.split(',');
