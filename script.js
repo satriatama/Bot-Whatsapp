@@ -17,7 +17,9 @@ connection.connect(function (err) {
 
 const qrcode = require('qrcode-terminal');
 const { Client, NoAuth, AuthStrategy } = require('whatsapp-web.js');
-const client = new Client();
+const client = new Client(
+    { puppeteer: {headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']}, session: "sessionCfg"}
+);
 
 client.on('qr', qr => {
     qrcode.generate(qr, {small: true});
@@ -104,20 +106,21 @@ function schedule(){
                 console.log("1 record deleted");
                 message.reply('jadwal berhasil dihapus');
             });
-        }else if(message.body.includes('!ask') && contact.includes('6287836672971')){
-            let text = message.body.split('!ask')[1];
-            let prompt = 'Q: '+text+'\nA:';
-                const completion = await openai.createCompletion({
-                  model: "text-davinci-003",
-                  prompt: prompt,
-                  temperature: 0,
-                  max_tokens: 300,
-                  top_p: 1.0,
-                  frequency_penalty: 0.0,
-                  presence_penalty: 0.0,
-                });
-                client.sendMessage(message.from, completion.data.choices[0].text);
         }
+        // }else if(message.body.includes('!ask') && contact.includes('6287836672971')){
+        //     let text = message.body.split('!ask')[1];
+        //     let prompt = 'Q: '+text+'\nA:';
+        //         const completion = await openai.createCompletion({
+        //           model: "text-davinci-003",
+        //           prompt: prompt,
+        //           temperature: 0,
+        //           max_tokens: 300,
+        //           top_p: 1.0,
+        //           frequency_penalty: 0.0,
+        //           presence_penalty: 0.0,
+        //         });
+        //         client.sendMessage(message.from, completion.data.choices[0].text);
+        // }
 })
 }
 schedule();
