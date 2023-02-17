@@ -18,7 +18,7 @@ connection.connect(function (err) {
 const qrcode = require('qrcode-terminal');
 const { Client, NoAuth, AuthStrategy } = require('whatsapp-web.js');
 const client = new Client(
-    { puppeteer: {headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']}, session: "sessionCfg"}
+    { puppeteer: {headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']}}
 );
 
 client.on('qr', qr => {
